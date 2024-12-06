@@ -58,7 +58,7 @@ VECS = [
     Coord(-1,0),
 ]
 
-def walk_path(pos):
+def walk_path(pos, do_path=False):
     global lines
     end = False
     dir=2
@@ -77,8 +77,9 @@ def walk_path(pos):
             if dir < 0: 
                 dir = 3
         pos = pos.add(VECS[dir])
-        if not pos in path:
-            path.append(pos)
+        if do_path:
+            if not pos in path:
+                path.append(pos)
 
     return path
 
@@ -102,10 +103,10 @@ lines_org=deepcopy(lines)
 
 pos=deepcopy(startpos)
 lines= deepcopy(lines_org)
-path= walk_path(pos)
+path= walk_path(pos, True)
 
 print(startpos, len(path))
-
+print("answer part 1:", len(path))
 
 
 count = 0
