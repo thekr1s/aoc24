@@ -2,14 +2,6 @@
 from copy import deepcopy
 from dataclasses import dataclass
 import os
-BLUE = '\033[94m'
-CYAN = '\033[96m'
-GREEN = '\033[92m'
-ORANGE = '\033[93m'
-RED = '\033[91m'
-ENDC = '\033[0m'
-BOLD = '\033[1m'
-UNDERLINE = '\033[4m'
 
 def string_to_ints(str, separator):
     s = str.strip().split(separator)
@@ -68,17 +60,55 @@ class Coord:
 
         return cc;
 
+
+def findall(c):
+    y = 0
+    pp = []
+    for l in lines:
+        p = [i for i in range(len(l)) if l.startswith(c, i)]
+        for x in p:
+            pp.append(Coord(x,y))
+        y+=1
+    return pp
+
+def put_ants(p, pp):
+    global ant
+    for a in pp:
+        d = a.diff(p)
+        p1 = a.add(d)
+        p2 = p.sub(d)
+        while p1:
+            ant[p1.y][p1.x]='#'
+            p1 = p1.add(d)
+        while p2:
+            ant[p2.y][p2.x]='#'
+            p2=p2.sub(d)
+
 dir = os.path.dirname(__file__)
 f = open(dir+"/input.txt")
 lines = []
+ant=[]
 for l in f.readlines():
     lines.append(l.strip())
+    ant.append(list(l.strip()))
     
     
 sum = 0
-for l in lines:
-    pass
+for c in range(0x30, 0x7b):
+    c = chr(c)
+    if c.isdigit() or c.isalpha():
+        pp = findall(c)
+        if len(pp) > 0:
+            print(c, pp)
+            for i,p in enumerate(pp):
+                put_ants(p, pp[i+1:])
 print(sum)
-    
+for l in ant:
+    for c in l:
+        if c!='.':
+            sum +=1
+        print(end=c)
+    print()
+print(sum)
     
     

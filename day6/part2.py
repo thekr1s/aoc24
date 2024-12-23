@@ -76,11 +76,14 @@ def walk_path(pos, do_path=False):
             dir -=1
             if dir < 0: 
                 dir = 3
-        pos = pos.add(VECS[dir])
-        if do_path:
-            if not pos in path:
-                path.append(pos)
-
+        else:
+            pos = pos.add(VECS[dir])
+            if do_path:
+                set_c(pos, "X")
+                if not pos in path:
+                    path.append(pos)
+    # for l in lines:
+    #     print(l)
     return path
 
 
@@ -104,13 +107,15 @@ lines_org=deepcopy(lines)
 pos=deepcopy(startpos)
 lines= deepcopy(lines_org)
 path= walk_path(pos, True)
-
 print(startpos, len(path))
 print("answer part 1:", len(path))
 
 
 count = 0
 sum = 0
+# for x in range(pos.maxx-1):
+#     for y in range(pos.maxy-1):
+#         p = Coord(x,y)
 for p in path:
     print(p, count)
     count +=1
