@@ -87,9 +87,8 @@ def findpath(path):
         n = p.add(d)
         if n and n.get() != -1 and not n in path and n.get()-v == 1:
             if n.get() == 9:
-                if not n in found:
-                    count +=1
-                    found.append(n)
+                count +=1
+                found.append(n)
             else:
                 findpath(path + [n])
 
